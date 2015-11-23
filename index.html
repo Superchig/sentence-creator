@@ -2,25 +2,33 @@
 <html lang="en">
   <head>
 	<title>Sentence Creator</title>
+	<!-- <script data-main="assets/js/requirejs/main" src="assets/js/requirejs/require.js"></script> -->
 	<script src="assets/js/main.js"></script>
 	<link rel="stylesheet" type="text/css" href="assets/css/main.css">
   </head>
 
   <body>
 	<h1>Esperanto Sentence Practice And Inflection-Related Utilities</h1>
-	<h2>Input</h2>
-	<p>Hello, world!</p>
 
-	<button onclick="createSentence()" type="submit">Submit</button>
-	<h3>Commoun Nouns:</h3>
-	<button onclick="saveCommonNouns()" type="button" class="save">Save</button>
-	<textarea id="commonNouns" rows="10" cols="30"></textarea>
-	<h3>Transitive Verbs:</h3>
-	<button onclick="saveTransVerbs()" type="button" class="save">Save</button>
-	<textarea id="transVerbs" rows="10" cols="30"></textarea>
+	<h2>Input</h2>
+	<button onclick="createSentence()" type="submit" id="submitButton">Submit</button>
+	<div class="input">
+	  <h3>Commoun Nouns:</h3>
+	  <button onclick="saveCommonNouns()" type="button" class="save">Save</button>
+	  <textarea id="commonNouns" rows="10" cols="30"></textarea>
+	</div>
+	<div class="input">
+	  <h3>Transitive Verbs:</h3>
+	  <button onclick="saveTransVerbs()" type="button" class="save">Save</button>
+	  <textarea id="transVerbs" rows="10" cols="30"></textarea>
+	</div>
+	<div class="input">
+	  <h3>Sentence Patterns</h3>
+	  <textarea id="senPats" rows="10" cols="50">La COMMON_NOUN PRES_TRANS_VERB ACC_COMMON_NOUN</textarea>
+	</div>
 
 	<h2>Sentence</h2>
-	<p id="output">A sentence will be here eventually.</p>
+	<textarea id="output">A sentence will be here eventually.</textarea>
   </body>
 
 </html>

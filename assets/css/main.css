@@ -1,3 +1,12 @@
 .save {
 	float: right;
 }
+
+.input {
+	display: inline-block;
+}
+
+#submitButton {
+	float: left;
+	clear: right;
+}
