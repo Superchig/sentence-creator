@@ -3,7 +3,6 @@
   <head>
 	<title>Sentence Creator</title>
 	<!-- <script data-main="assets/js/requirejs/main" src="assets/js/requirejs/require.js"></script> -->
-	<script src="assets/js/main.js"></script>
 	<link rel="stylesheet" type="text/css" href="assets/css/main.css">
   </head>
 
@@ -14,21 +13,32 @@
 	<button onclick="createSentence()" type="submit" id="submitButton">Submit</button>
 	<div class="input">
 	  <h3>Commoun Nouns:</h3>
-	  <button onclick="saveCommonNouns()" type="button" class="save">Save</button>
+	  <button type="button" class="save" id="saveCommonNouns">Save</button>
+	  <button type="button" class="load" id="loadCommonNouns">Load</button>
 	  <textarea id="commonNouns" rows="10" cols="30"></textarea>
 	</div>
 	<div class="input">
 	  <h3>Transitive Verbs:</h3>
-	  <button onclick="saveTransVerbs()" type="button" class="save">Save</button>
+	  <button type="button" class="save" id="saveTransVerbs">Save</button>
+	  <button type="button" class="load" id="loadTransVerbs">Load</button>
 	  <textarea id="transVerbs" rows="10" cols="30"></textarea>
 	</div>
 	<div class="input">
+	  <h3>Adjectives:</h3>
+	  <button type="button" class="save" id="saveAdjectives">Save</button>
+	  <button type="button" class="load" id="loadAdjectives">Load</button>
+	  <textarea id="adjectives" rows="10" cols="30"></textarea>
+	</div>
+	<div class="input">
 	  <h3>Sentence Patterns</h3>
+	  <button type="button" class="save" id="saveSenPats">Save</button>
+	  <button type="button" class="load" id="loadSenPats">Load</button>
 	  <textarea id="senPats" rows="10" cols="50">La COMMON_NOUN PRES_TRANS_VERB ACC_COMMON_NOUN</textarea>
 	</div>
 
 	<h2>Sentence</h2>
 	<textarea id="output">A sentence will be here eventually.</textarea>
   </body>
-
+  <!-- Script adds onclick events to the Save and Load buttons, so it must be loaded after them. -->
+  <script src="assets/js/main.js"></script>
 </html>

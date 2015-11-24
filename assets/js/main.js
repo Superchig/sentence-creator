@@ -1,26 +1,31 @@
 function createSentence() {
-	var commonNouns = document
-			.getElementById("commonNouns")
-			.value
-			.split("\n")
-			.map(function (noun) {
-				return new Noun(noun);
-			});
-
-	var transVerbs = document
-			.getElementById("transVerbs")
-			.value
-			.split("\n")
-			.map(function (infinitive) {
-				return new Verb(infinitive);
-			});
-
+	var commonNouns = getCommonNouns();
+	var transVerbs = getTransVerbs();
+	var adjectives = getAdjectives();
 	var senPats = document.getElementById("senPats").value
+			.replace("\n ", "\n")
 			.split("\n");
 
-	var senPat = randomItem(senPats).split(" ");
+	var senPat = randomItem(senPats);
 
+	// Remove the period at the end of the sentence pattern.
+	if (senPat[senPat.length - 1] == '.') {
+		senPat = senPat.substr(0, senPat.length - 1);
+	}
+	
+	var sentence = subSentence(senPat,
+							   commonNouns,
+							   transVerbs,
+							   adjectives) + "."; // Add the period
+
+	console.log(sentence);
+	document.getElementById("output").value = sentence;
+}
+
+function subSentence(senPat, commonNouns, transVerbs, adjectives) {
 	var index = 0;
+
+	senPat = senPat.split(" ");
 	for (var word of senPat) {
 		switch (word) {
 		case "COMMON_NOUN":
@@ -32,24 +37,103 @@ function createSentence() {
 		case "ACC_COMMON_NOUN":
 			senPat[index] = randomItem(commonNouns).accusative();
 			break;
+		case "PLURAL_COMMON_NOUN":
+			senPat[index] = randomItem(commonNouns).plural();
+			break;
+		case "ACC_PLURAL_COMMON_NOUN":
+			senPat[index] = randomItem(commonNouns).accPlural();
+			break;
+		case "ADJECTIVE":
+			senPat[index] = randomItem(adjectives).word;
+			break;
+		case "PLURAL_ADJECTIVE":
+			senPat[index] = randomItem(adjectives).plural();
+			break;
+		case "ACC_ADJECTIVE":
+			senPat[index] = randomItem(adjectives).accusative();
+			break;
+		case "ACC_PLURAL_ADJECTIVE":
+			senPat[index] = randomItem(adjectives).accPlural();
+			break;
 		}
 
 		index++;
 	}
-
-	var sentence = senPat.join(" ");
-	
-	console.log(sentence);
-	document.getElementById("output").innerHtml = sentence;
+	return senPat.join(" ");
 }
 
-function saveCommonNouns() {
-	document.cookie = "commonNouns=" + document.getElementById("commonNouns").value;
+// Functions that retrieve words from the DOM
+
+function getAdjectives() {
+	return document.getElementById("adjectives")
+		.value
+		.replace("\n ", "\n")
+		.split("\n")
+		.map(function(adjective) {
+			return new Adjective(adjective);
+		});
 }
 
-function saveTransVerbs() {
-	document.cookie = "transVerbs=" + document.get.ElementById("transVerbs").value;
+function getCommonNouns() {
+	return document.getElementById("commonNouns")
+		.value
+		.replace("\n ", "\n")
+		.split("\n")
+		.map(function (noun) {
+			return new Noun(noun);
+		});
 }
+
+function getTransVerbs() {
+	return document.getElementById("transVerbs")
+		.value
+		.replace("\n ", "\n")
+		.split("\n")
+		.map(function (infinitive) {
+			return new Verb(infinitive);
+		});
+}
+
+// Cookies Functions
+
+function getCookie(cname) {
+	var name = cname + "=";
+	var ca = document.cookie.split(';');
+	for(var c of ca) {
+		while (c.charAt(0)==' ') c = c.substring(1);
+		if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+	}
+	return "";
+}
+
+function saveInput(inputName) {
+	document.cookie = inputName + "=" + document.getElementById(inputName).value;
+}
+
+function loadInput(inputName) {
+	document.getElementById(inputName).value = getCookie(inputName);
+}
+
+// DOM Add onclick properties onto corresponding buttons.
+
+function addSaveInputToButton(buttonId, inputName) {
+	document.getElementById(buttonId).addEventListener('click', saveInput(inputName));
+}
+
+addSaveInputToButton("saveCommonNouns", "commonNouns");
+addSaveInputToButton("saveTransVerbs", "transVerbs");
+addSaveInputToButton("saveAdjectives", "adjectives");
+addSaveInputToButton("saveSenPats", "senPats");
+
+function addLoadInputToButton(buttonId, inputName) {
+	document.getElementById(buttonId).addEventListener('click', loadInput(inputName));
+}
+
+addLoadInputToButton("saveCommonNouns", "commonNouns");
+addLoadInputToButton("saveTransVerbs", "transVerbs");
+addLoadInputToButton("saveAdjectives", "adjectives");
+addLoadInputToButton("saveSenPats", "senPats");
+
 
 function randomItem(arr) {
 	return arr[Math.floor(Math.random()*arr.length)];
@@ -130,9 +214,4 @@ Adjective.prototype.accusative = function() {
 
 Adjective.prototype.accPlural = function() {
 	return this.word + "jn";
-};
-
-// Sentence pattern declaration
-var SenPat = function(sentencePattern) {
-	this.pattern = sentencePattern;
 };

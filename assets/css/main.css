@@ -2,6 +2,10 @@
 	float: right;
 }
 
+.load {
+	float: right;
+}
+
 .input {
 	display: inline-block;
 }
